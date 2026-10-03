@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>AR Hóa Học: Fe + HCl (Bản To)</title>
+    <title>AR Hóa Học: Fe + HCl (Ngang tầm mắt)</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     
     <style>
@@ -26,13 +26,13 @@
 
     <a-scene vr-mode-ui="enabled: false" renderer="alpha: true; antialias: true" style="position: absolute; top: 0; left: 0; z-index: 1;">
         
-        <!-- Bàn lơ lửng (Đã kéo lại gần ở z = -2, to hơn và hạ thấp xuống) -->
-        <a-cylinder position="0 -1.2 -2" radius="2" height="0.02" color="#34495e" opacity="0.6"></a-cylinder>
+        <!-- Bàn lơ lửng (Đã nâng lên Y=0.3 để ngang tầm mắt) -->
+        <a-cylinder position="0 0.3 -2" radius="2" height="0.02" color="#34495e" opacity="0.6"></a-cylinder>
         <a-light type="ambient" color="#ffffff" intensity="0.9"></a-light>
         <a-light type="directional" position="-1 2 1" intensity="0.5"></a-light>
 
-        <!-- Trạm thí nghiệm (Đã kéo lại gần mắt: z = -2, phóng to gấp 2.5 lần) -->
-        <a-entity id="lab-table" position="0 -1.1 -2" scale="2.5 2.5 2.5">
+        <!-- Trạm thí nghiệm (Đã nâng lên Y=0.4, giảm scale đi 5% còn 2.375) -->
+        <a-entity id="lab-table" position="0 0.4 -2" scale="2.375 2.375 2.375">
             
             <!-- GIÁ ĐỠ CHUẨN -->
             <!-- Đế -->
@@ -57,12 +57,13 @@
             <a-entity id="particle-container"></a-entity>
         </a-entity>
 
+        <!-- Camera quan sát ngang tầm mắt -->
         <a-camera position="0 1.5 0" look-controls></a-camera>
     </a-scene>
 
     <script>
         const soundBubbles = new Audio('https://actions.google.com/sounds/v1/water/simmering_water.ogg');
-        soundBubbles.loop = true; soundBubbles.volume = 1.0; // Tăng max âm lượng
+        soundBubbles.loop = true; soundBubbles.volume = 1.0; 
 
         const startScreen = document.getElementById('startScreen');
         const startBtn = document.getElementById('startBtn');
