@@ -52,10 +52,13 @@
         <!-- Trạm thí nghiệm (Đặt cách mắt 3 mét) -->
         <a-entity id="lab-table" position="0 -0.4 -3">
             
-            <!-- Giá đỡ ống nghiệm bằng gỗ -->
+            <!-- Giá đỡ ống nghiệm bằng gỗ (Đã xoay thanh dọc sang trái/phải) -->
             <a-box position="0 -0.05 0" width="0.25" height="0.1" depth="0.25" color="#8b4513"></a-box>
-            <a-cylinder position="0 0.25 -0.1" radius="0.02" height="0.6" color="#8b4513"></a-cylinder>
-            <a-cylinder position="0 0.25 0.1" radius="0.02" height="0.6" color="#8b4513"></a-cylinder>
+            <!-- Thanh dọc bên TRÁI -->
+            <a-cylinder position="-0.1 0.25 0" radius="0.02" height="0.6" color="#8b4513"></a-cylinder>
+            <!-- Thanh dọc bên PHẢI -->
+            <a-cylinder position="0.1 0.25 0" radius="0.02" height="0.6" color="#8b4513"></a-cylinder>
+            <!-- Vòng cố định -->
             <a-torus position="0 0.5 0" rotation="90 0 0" radius="0.1" radius-tubular="0.01" color="#8b4513"></a-torus>
 
             <!-- Ống nghiệm thủy tinh -->
@@ -66,7 +69,7 @@
             <a-cylinder id="liquid-body" position="0 0.45 0" radius="0.08" height="0.7" color="#e0f7fa" opacity="0.7" material="side: double; transparent: true; depthWrite: false"></a-cylinder>
             <a-sphere id="liquid-bottom" position="0 0.1 0" radius="0.08" color="#e0f7fa" opacity="0.7" material="side: double; transparent: true; depthWrite: false"></a-sphere>
 
-            <!-- Nơi chứa Đinh sắt và hạt bọt khí (để không bị lỗi Z-fighting) -->
+            <!-- Nơi chứa Đinh sắt và hạt bọt khí -->
             <a-entity id="reaction-container"></a-entity>
             <a-entity id="particle-container"></a-entity>
         </a-entity>
@@ -76,7 +79,7 @@
     </a-scene>
 
     <script>
-        // Tiếng sủi bọt (sử dụng âm thanh tiêu chuẩn)
+        // Tiếng sủi bọt
         const soundBubbles = new Audio('https://actions.google.com/sounds/v1/water/simmering_water.ogg');
         soundBubbles.loop = true; 
         soundBubbles.volume = 0.8;
@@ -173,14 +176,21 @@
                     // ĐỔI MÀU: Dung dịch từ từ ngả sang Xanh nhạt (FeCl2) trong 10 giây
                     liquidBody.setAttribute('animation__color', 'property: color; from: #e0f7fa; to: #b8e994; dur: 10000; easing: linear');
                     liquidBottom.setAttribute('animation__color', 'property: color; from: #e0f7fa; to: #b8e994; dur: 10000; easing: linear');
+                    
+                    // MÀI MÒN KIM LOẠI: Đinh sắt nhỏ dần (scale từ 1 xuống 0.3)
+                    nail.setAttribute('animation__shrink', 'property: scale; from: 1 1 1; to: 0.3 1 0.3; dur: 10000; easing: linear');
 
-                    // HỆ THỐNG TẠO BỌT KHÍ LIÊN TỤC (Sủi cực mạnh như video)
+                    // HỆ THỐNG TẠO BỌT KHÍ LIÊN TỤC
                     particleInterval = setInterval(() => {
                         for(let i = 0; i < 5; i++) {
                             // Chọn ngẫu nhiên độ cao xuất hiện dọc theo thân đinh (từ đáy đến mặt nước)
                             let h = Math.random() * 0.45 + 0.12; 
                             let angle = Math.random() * Math.PI * 2;
-                            let r = 0.015 + Math.random() * 0.005; // Bám sát viền đinh sắt
+                            // Bán kính thay đổi nhỏ dần khi đinh bị mài mòn (0.015 ban đầu -> nhỏ hơn)
+                            // Ước lượng tỷ lệ mài mòn theo thời gian
+                            let timeElapsed = (Date.now() - startTime) / 10000;
+                            let currentScale = 1 - (0.7 * Math.min(timeElapsed, 1)); // scale từ 1 xuống 0.3
+                            let r = (0.015 + Math.random() * 0.005) * currentScale;
                             
                             let startX = Math.cos(angle) * r;
                             let startZ = Math.sin(angle) * r;
@@ -195,14 +205,17 @@
 
                             createBubble(startX, startY, startZ, endX, endY, endZ, duration, size);
                         }
-                    }, 30); // 30ms sinh bọt 1 lần -> Sủi bọt dày đặc
+                    }, 30); // 30ms sinh bọt 1 lần
+                    
+                    // Lưu thời gian bắt đầu phản ứng để tính độ mài mòn
+                    let startTime = Date.now();
 
                     // 4. Kết thúc và Tự động lặp lại
                     setTimeout(() => {
                         clearInterval(particleInterval);
                         soundBubbles.pause();
                         
-                        // Để nguyên màu xanh thêm 3 giây, sau đó lặp lại thí nghiệm
+                        // Để nguyên trạng thái 3 giây, sau đó lặp lại thí nghiệm
                         setTimeout(runExperiment, 3000);
                     }, 12000); // Thí nghiệm diễn ra trong 12 giây
 
