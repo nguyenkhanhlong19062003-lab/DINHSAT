@@ -2,31 +2,16 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>AR Hóa Học: Fe + HCl</title>
+    <title>AR Hóa Học: Fe + HCl (Bản To)</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     
     <style>
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
-        
-        #camera-bg {
-            position: absolute; top: 0; left: 0; width: 100vw; height: 100vh;
-            object-fit: cover; z-index: -2;
-        }
-        
+        #camera-bg { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: -2; }
         .a-canvas { background-color: transparent !important; }
-
-        #startScreen {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); z-index: 9999;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-        }
-        #startBtn {
-            padding: 20px 40px; font-size: 18px; font-weight: bold; background: #27ae60; 
-            color: white; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-        }
-        .info-text {
-            color: #ccc; font-family: sans-serif; text-align: center; margin-bottom: 5px; font-size: 14px;
-        }
+        #startScreen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        #startBtn { padding: 20px 40px; font-size: 18px; font-weight: bold; background: #27ae60; color: white; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .info-text { color: #ccc; font-family: sans-serif; text-align: center; margin-bottom: 5px; font-size: 14px; }
     </style>
 </head>
 <body>
@@ -36,31 +21,30 @@
     <div id="startScreen">
         <h2 style="color: white; font-family: sans-serif; text-align: center; margin-bottom: 10px;">Thí nghiệm AR: Fe + HCl</h2>
         <p class="info-text">Hiện tượng: Sủi bọt khí H2, đinh mòn dần, dung dịch hóa xanh nhạt.</p>
-        <p class="info-text" style="margin-bottom: 25px;">(Vui lòng cho phép quyền Camera khi được hỏi)</p>
         <button id="startBtn">MỞ CAMERA & BẮT ĐẦU</button>
     </div>
 
     <a-scene vr-mode-ui="enabled: false" renderer="alpha: true; antialias: true" style="position: absolute; top: 0; left: 0; z-index: 1;">
         
-        <!-- Mặt bàn lơ lửng mờ ảo -->
-        <a-cylinder position="0 -0.5 -3" radius="1.5" height="0.02" color="#34495e" opacity="0.6"></a-cylinder>
+        <!-- Bàn lơ lửng (Đã kéo lại gần ở z = -2, to hơn và hạ thấp xuống) -->
+        <a-cylinder position="0 -1.2 -2" radius="2" height="0.02" color="#34495e" opacity="0.6"></a-cylinder>
         <a-light type="ambient" color="#ffffff" intensity="0.9"></a-light>
         <a-light type="directional" position="-1 2 1" intensity="0.5"></a-light>
 
-        <!-- Trạm thí nghiệm (Đặt cách mắt 3 mét) -->
-        <a-entity id="lab-table" position="0 -0.4 -3">
+        <!-- Trạm thí nghiệm (Đã kéo lại gần mắt: z = -2, phóng to gấp 2.5 lần) -->
+        <a-entity id="lab-table" position="0 -1.1 -2" scale="2.5 2.5 2.5">
             
-            <!-- GIÁ ĐỠ THÍ NGHIỆM CHUẨN (Cột dọc nằm hẳn bên Trái) -->
-            <!-- Đế giá đỡ -->
+            <!-- GIÁ ĐỠ CHUẨN -->
+            <!-- Đế -->
             <a-box position="-0.1 -0.05 0" width="0.4" height="0.05" depth="0.25" color="#8b4513"></a-box>
-            <!-- Trục dọc bên TRÁI (-0.18 so với tâm ống nghiệm) -->
+            <!-- Trục dọc bên Trái -->
             <a-cylinder position="-0.18 0.35 0" radius="0.015" height="0.8" color="#8b4513"></a-cylinder>
-            <!-- Thanh ngang (kẹp) vươn từ trái sang giữ ống nghiệm -->
+            <!-- Thanh kẹp ngang -->
             <a-cylinder position="-0.09 0.6 0" rotation="0 0 90" radius="0.01" height="0.18" color="#7f8c8d"></a-cylinder>
-            <!-- Vòng kẹp ôm trọn ống nghiệm -->
+            <!-- Vòng kẹp ôm ống nghiệm -->
             <a-torus position="0 0.6 0" rotation="90 0 0" radius="0.095" radius-tubular="0.012" color="#7f8c8d"></a-torus>
 
-            <!-- Ống nghiệm thủy tinh -->
+            <!-- Ống nghiệm -->
             <a-cylinder position="0 0.65 0" radius="0.09" height="1.1" color="#ffffff" opacity="0.15" material="side: double; transparent: true; depthWrite: false"></a-cylinder>
             <a-sphere position="0 0.1 0" radius="0.09" color="#ffffff" opacity="0.15" material="side: double; transparent: true; depthWrite: false"></a-sphere>
 
@@ -68,26 +52,23 @@
             <a-cylinder id="liquid-body" position="0 0.45 0" radius="0.08" height="0.7" color="#e0f7fa" opacity="0.7" material="side: double; transparent: true; depthWrite: false"></a-cylinder>
             <a-sphere id="liquid-bottom" position="0 0.1 0" radius="0.08" color="#e0f7fa" opacity="0.7" material="side: double; transparent: true; depthWrite: false"></a-sphere>
 
-            <!-- Nơi chứa Đinh sắt và Hạt bọt khí -->
+            <!-- Cụm chứa phản ứng -->
             <a-entity id="reaction-container"></a-entity>
             <a-entity id="particle-container"></a-entity>
         </a-entity>
 
-        <!-- Camera điều khiển bằng cảm biến điện thoại -->
         <a-camera position="0 1.5 0" look-controls></a-camera>
     </a-scene>
 
     <script>
         const soundBubbles = new Audio('https://actions.google.com/sounds/v1/water/simmering_water.ogg');
-        soundBubbles.loop = true; 
-        soundBubbles.volume = 0.8;
+        soundBubbles.loop = true; soundBubbles.volume = 1.0; // Tăng max âm lượng
 
         const startScreen = document.getElementById('startScreen');
         const startBtn = document.getElementById('startBtn');
         const container = document.getElementById('reaction-container');
         const particleContainer = document.getElementById('particle-container');
         const cameraBg = document.getElementById('camera-bg');
-        
         const liquidBody = document.getElementById('liquid-body');
         const liquidBottom = document.getElementById('liquid-bottom');
 
@@ -96,13 +77,11 @@
         startBtn.addEventListener('click', () => {
             if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
                 navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-                .then(function(stream) { cameraBg.srcObject = stream; })
-                .catch(function(err) { alert("Hãy cấp quyền Camera để thấy bối cảnh thực tế!"); });
+                .then(stream => { cameraBg.srcObject = stream; })
+                .catch(err => { alert("Hãy cấp quyền Camera!"); });
             }
-
             startScreen.style.display = 'none';
             soundBubbles.play().then(() => soundBubbles.pause()).catch(() => {});
-            
             setTimeout(runExperiment, 1000);
         });
 
@@ -113,7 +92,6 @@
             p.setAttribute('position', `${startX} ${startY} ${startZ}`);
             p.setAttribute('material', 'shader: flat; transparent: true; opacity: 0.8');
             p.setAttribute('animation__pos', `property: position; to: ${endX} ${endY} ${endZ}; dur: ${duration}; easing: linear`);
-            
             particleContainer.appendChild(p);
             setTimeout(() => { if (p.parentNode) p.parentNode.removeChild(p); }, duration);
         }
@@ -129,61 +107,51 @@
             liquidBody.setAttribute('color', '#e0f7fa');
             liquidBottom.setAttribute('color', '#e0f7fa');
 
-            // Tạo Đinh sắt
+            // Khởi tạo cụm Đinh sắt
             const nail = document.createElement('a-entity');
             nail.setAttribute('position', '0 1.5 0'); 
 
             const body = document.createElement('a-cylinder');
-            body.setAttribute('radius', '0.012');
-            body.setAttribute('height', '0.5');
-            body.setAttribute('color', '#636e72');
-            body.setAttribute('position', '0 0 0');
+            body.setAttribute('radius', '0.012'); body.setAttribute('height', '0.5');
+            body.setAttribute('color', '#636e72'); body.setAttribute('position', '0 0 0');
 
             const head = document.createElement('a-cylinder');
-            head.setAttribute('radius', '0.025');
-            head.setAttribute('height', '0.02');
-            head.setAttribute('color', '#636e72');
-            head.setAttribute('position', '0 0.25 0'); 
+            head.setAttribute('radius', '0.025'); head.setAttribute('height', '0.02');
+            head.setAttribute('color', '#636e72'); head.setAttribute('position', '0 0.25 0'); 
 
             nail.appendChild(body);
             nail.appendChild(head);
             container.appendChild(nail);
 
             setTimeout(() => {
+                // Rơi xuống
                 nail.setAttribute('animation__fall', 'property: position; to: 0 0.35 0; dur: 800; easing: easeInQuad');
                 
                 setTimeout(() => {
                     soundBubbles.play();
                     
-                    // Dung dịch ngả Xanh nhạt
+                    // Đổi màu xanh
                     liquidBody.setAttribute('animation__color', 'property: color; from: #e0f7fa; to: #b8e994; dur: 10000; easing: linear');
                     liquidBottom.setAttribute('animation__color', 'property: color; from: #e0f7fa; to: #b8e994; dur: 10000; easing: linear');
                     
-                    // ĐINH SẮT MÒN DẦN (Teo bề ngang còn 20%, chiều cao còn 80%)
+                    // Đinh nhỏ dần
                     nail.setAttribute('animation__shrink', 'property: scale; from: 1 1 1; to: 0.2 0.8 0.2; dur: 10000; easing: linear');
 
-                    // Sửa lỗi: Khởi tạo biến startTime TRƯỚC khi gọi setInterval
                     let startTime = Date.now();
 
+                    // Bọt khí bám sát đinh
                     particleInterval = setInterval(() => {
                         for(let i = 0; i < 5; i++) {
-                            // Tính toán tỷ lệ mòn theo thời gian thực để bọt khí bám sát đinh
                             let timeElapsed = (Date.now() - startTime) / 10000;
-                            let currentScaleX = 1 - (0.8 * Math.min(timeElapsed, 1)); // X giảm từ 1 xuống 0.2
-                            let currentScaleY = 1 - (0.2 * Math.min(timeElapsed, 1)); // Y giảm từ 1 xuống 0.8
+                            let currentScaleX = 1 - (0.8 * Math.min(timeElapsed, 1));
+                            let currentScaleY = 1 - (0.2 * Math.min(timeElapsed, 1));
                             
                             let h = (Math.random() * 0.45 + 0.12) * currentScaleY; 
                             let angle = Math.random() * Math.PI * 2;
                             let r = (0.015 + Math.random() * 0.005) * currentScaleX;
                             
-                            let startX = Math.cos(angle) * r;
-                            let startZ = Math.sin(angle) * r;
-                            let startY = h;
-
-                            let endX = startX + (Math.random() - 0.5) * 0.04;
-                            let endZ = startZ + (Math.random() - 0.5) * 0.04;
-                            let endY = 0.78; 
-
+                            let startX = Math.cos(angle) * r; let startZ = Math.sin(angle) * r; let startY = h;
+                            let endX = startX + (Math.random() - 0.5) * 0.04; let endZ = startZ + (Math.random() - 0.5) * 0.04; let endY = 0.78; 
                             let duration = (endY - startY) * 2000; 
                             let size = 0.003 + Math.random() * 0.003; 
 
